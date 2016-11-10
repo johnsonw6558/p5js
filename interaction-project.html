@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        function setup() {
+            createCanvas(600, 600);
+
+        }
+
+        function mouseDragged() { // when the mouse is dragged random color and size squares will appear around the mouse and fades
+            var rectSize;
+            rectSize = random(100);
+            background(random(100,255),random(100,255),random(100,255),75); // declares random colored backgrounds with an opacity of 75
+            rectMode(CENTER);
+            fill(random(255), random(255), random(255)); // random colors for squares 
+            rect(mouseX + random(-200,200), mouseY + random(-200,200), rectSize, rectSize); // random size squares will appear anywhere within 200 radius around around the mouse
+        }
+
+        function keyPressed() { // when a key is pressed a random colored square shaped face will pop up covering the whole canvas
+            
+            // random colored square shaped face
+            fill(random(255), random(255), random(255));
+            rect(width / 2, height / 2, width, height);
+            
+            // white eyes
+            fill(255);
+            ellipse(width * 1 / 3, height * 1 / 3, 100, 100); // left
+            ellipse(width * 2 / 3, height * 1 / 3, 100, 100); // right
+            
+            // black pupil in eyes
+            fill(0);
+            ellipse(width * 1 / 3, height * 1 / 3, 50, 50); // left
+            ellipse(width * 2 / 3, height * 1 / 3, 50, 50); // right
+            
+            // white mouth
+            rectMode(CENTER);
+            fill(255);
+            rect(width / 2, height * 3 / 4, 300, 100);
+        }
+        function mouseMoved () { // when the mouse is moved random colored square shaped face will appear over the mouse
+            background(random(255),random(255),random(255),15); // declares random colored backgrounds with an opacity of 15
+            rectMode(CENTER);
+            
+            // random colored square shaped face 
+            fill(random(255),random(255),random(255)); 
+            rect(mouseX,mouseY,100,100);
+            
+            // white eyes
+            fill(255);
+            ellipse(mouseX-25,mouseY-25,25,25); // left
+            ellipse(mouseX+25,mouseY-25,25,25); // right
+            
+            // black pupil in eyes
+            fill(0);
+            ellipse(mouseX-25,mouseY-25,10,10); // left
+            ellipse(mouseX+25,mouseY-25,10,10); // right
+            
+            // white mouth
+            fill(255);
+            rect(mouseX,mouseY+25,60,25);
+            
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/johnsonw6558/p5js/blob/gh-pages/interaction-project.html?footer=0"></script>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+</html>
