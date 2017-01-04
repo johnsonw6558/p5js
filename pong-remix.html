@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var paddleDecrease = 10; // the length in which the paddle decreases by (10 units).
+        var paddleWidth = 200; // the starting width of the paddle which is 200 units
+        var speedIncrease = -1.05; // the speed in which the ball movement increases by (5% of its' previous speed).
+        var score = 0; //the score starts at 0
+        var ballX; //the x coordinate of the ball
+        var ballY; //the y coordinate of the ball
+        var ballSpeedX = 5; //the moving SPEED of the ball from left to right or right to left
+        var ballSpeedY = 5; //the moving SPEED of the ball from top to bottom or bottom to top
+        var paddleHeight = 30; //the height of the paddle is 30 units
+
+        function setup() {
+
+            createCanvas(800, 600); // the canvas is 800 units wiide and 600 units tall
+            noCursor();
+
+            //the ball starts in the middle of the canvas
+            ballX = width / 2;
+            ballY = height / 2;
+        }
+
+        function draw() {
+            background(128); //sets background to gray
+            textSize(20); // size of the text
+            text("Score:" + score, 25, 30); // shows score on the canvas
+            moveBall(); //makes the ball move
+            checkCollide(); //make the ball bounce if ball hits the left edge, right edge, top edge, or paddle. But if ball passes the goal line then game over and the game stops
+            drawPaddle(); //shows the paddle and makes paddle move left or right using the mouse
+            drawBall(); //shows the ball 
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX; // the actual leftward or rightward movement of the ball
+            ballY = ballY + ballSpeedY; // the actual upward or downward movement of the ball
+        }
+
+        function checkCollide() {
+
+            //if the ball hits the left edge make it bounce towards the right or if the ball hits the right edge make it bounce towards the left. 
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+
+            //if the ball hits the top edge make it bounce downwards.
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;
+            }
+            if (ballY > height - paddleHeight) { //if the ball hits the bottom edge and...
+
+                //hits the paddle then...
+                if (ballX > mouseX - paddleWidth / 2 && ballX < mouseX + paddleWidth / 2) {
+                    
+                    ballSpeedY = ballSpeedY * speedIncrease;// the ball bounces off the paddle and the speed of the ball increases everytime it hits the paddle
+                    
+                    paddleWidth = paddleWidth - paddleDecrease;// the length of the paddle decreases everytime it hits the paddle
+                    
+                    // when the ball speed is less than -12 or greater than 12 then the ball speed stops increasing.
+                    if (ballSpeedY < -12 || ballSpeedY > 12) {
+                        speedIncrease = -1;
+                    }
+                    
+                    // when the length of the paddle becomes 50 units or less then the length of the paddle stops decreasing.
+                    if (paddleWidth <= 50) {
+                        paddleDecrease = 0;
+                    }
+                    
+                    score = score + 1; // the score increases by 1 everytime it hits the paddle.
+
+                }
+
+                //did not hit the paddle then "GAME OVER!" and the game stops
+                else {
+                    text("GAME OVER!", width / 2, height / 2);
+                    noLoop();
+                }
+            }
+        }
+
+        //the moving ball
+        function drawBall() {
+            noStroke();
+            ellipse(ballX, ballY, 20, 20);
+        }
+
+        //the paddle that you move, either left or right, using the mouse
+        function drawPaddle() {
+            strokeWeight(4);
+            rectMode(CENTER);
+            rect(mouseX, height - 19, paddleWidth, paddleHeight);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/johnsonw6558/p5js/blob/gh-pages/pong-remix.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas').remove());
+        });
+    </script>
+</body>
+
+</html>
