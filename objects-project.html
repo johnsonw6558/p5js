@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        
+        var addRectangles = []; 
+        var space = 0; 
+
+        function setup() {
+            createCanvas(800, 600);
+
+            //8 bars are created when it starts. Once it reaches the left side, they restart on the right side.
+            for (i = 0; i < 8; i++) {
+                addRectangles.push(new Rectangles())
+
+                space += 110; //this adds onto the space var and gives spacing in between each bar.
+            }
+
+        }
+        // draws the bars and the circle
+        function draw() {
+
+            noCursor(); //prevents the mouse from showing inside the canvas
+
+            background(0); //background is black
+
+            fill(255); // color of the circle: white
+
+            ellipse(mouseX, mouseY, 20, 20); // circle that moves with the mouse
+
+            //displays and gives functionality to all bars
+            for (var i = 0; i < addRectangles.length; i++) {
+                addRectangles[i].gg(); // stops the game when the circle touches any of the bars
+
+                addRectangles[i].move(); //makes all the bars move
+
+                addRectangles[i].display(); //displays all the bars
+
+                addRectangles[i].timer(); //shows timer
+            }
+        }
+
+        // function Rectangles() holds intructions on how to make the bars and what it does.
+        function Rectangles() {
+
+            this.speed = 3; // the movement speed of the bars
+
+            this.x = width + space; // the bars start on the right edge
+
+            this.y = random(800); // the bars start at random y-coordinate between 0 and 800
+
+            // makes the bars move
+            this.move = function() {
+                    this.x -= this.speed; // makes the bars move towards the left
+
+                    //when the bars reached the left edge it starts again on the right edge at random y-coordinate between 0 and 800
+                    if (this.x <= 0) {
+
+                        this.x = width + 110; // bars start again on the right edge with a spacing
+
+                        this.y = random(800); // bars start again at random y-coordinate between 0 and 800
+                    }
+
+                }
+                //this display the bars
+            this.display = function() {
+
+                fill(255); // sets the color of the bars to white
+                rectMode(CENTER);
+
+                rect(this.x, this.y, 20, 500); // the bar
+            }
+
+            //This detects if the circle is touching the bars and if so, ends the game and stops the bars from appearing.
+            this.gg = function() {
+
+                // if the circle touch the bars...
+                if ((mouseX + 10 > this.x - 10 && mouseX + 10 < this.x + 10 || mouseX - 10 > this.x - 10 && mouseX - 1 < this.x + 10) && (mouseY + 10 > this.y - 250 && mouseY + 10 < this.y + 250 || mouseY - 10 > this.y - 250 && mouseY - 10 < this.y + 250)) {
+
+                    addRectangles = false; // stops bars from showing
+
+                    background(255, 0, 0); // background turns red
+
+                    textSize(25); // size of the text 
+
+                    fill(255); //color of text: white
+
+                    text("Game Over, GG WP", 200, height / 2); // text that says "Game Over, GG WP" in the center of the canvas
+
+                    text("You survived for " + millis() / 1000 + " seconds", 200, 400) // text that tells you the time you survived in seconds
+
+                }
+            }
+
+            //the timer
+            this.timer = function() {
+                text("Time: " + millis() / 1000, 30, 30); //timer in seconds on the top left corner
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/johnsonw6558/p5js/blob/gh-pages/objects-project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas').remove());
+        });
+    </script>
+</body>
+
+</html>
